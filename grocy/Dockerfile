@@ -10,7 +10,6 @@ ARG GROCY_VERSION="v4.5.0"
 # hadolint ignore=DL3003
 RUN \
     apk add --no-cache \
-        composer=2.8.10-r0 \
         nginx=1.28.0-r3 \
         nodejs \
         npm \
@@ -33,6 +32,7 @@ RUN \
         yarn \
     \
     && apk add --no-cache --virtual .build-dependencies \
+        composer=2.8.10-r0 \
         git=2.49.1-r0 \
         php83-openssl=8.3.29-r0 \
         php83-phar=8.3.29-r0 \
@@ -64,7 +64,6 @@ RUN \
         /root/.composer \
         /tmp/* \
         /usr/lib/node_modules \
-        /usr/local/bin/composer \
         /usr/local/share/.cache \
         /var/www/grocy/.git \
         /var/www/grocy/.tx \
