@@ -31,7 +31,7 @@ This update modernizes the Grocy add-on with:
 
 **Quick Summary**:
 1. Stop old add-on
-2. Copy `/data/addons/a0d7b954_grocy/grocy.db` to backup
+2. Copy `/mnt/data/supervisor/addons/data/a0d7b954_grocy/grocy.db` to backup
 3. Install new add-on (don't start)
 4. Copy database to new add-on data directory
 5. Start new add-on
@@ -75,7 +75,7 @@ If you prefer manual backups or need granular control:
 4. **Backup Grocy Data**:
    ```bash
    # Backup entire data directory
-   cp -r /data/addons/a0d7b954_grocy /backup/grocy-migration-$(date +%Y%m%d)/
+   cp -r /mnt/data/supervisor/addons/data/a0d7b954_grocy /backup/grocy-migration-$(date +%Y%m%d)/
 
    # Verify backup completed
    ls -lh /backup/grocy-migration-$(date +%Y%m%d)/a0d7b954_grocy
@@ -177,14 +177,14 @@ If you need to reinstall or migrate to a different system:
 4. **Restore Data via SSH**:
    ```bash
    # Remove default data directory
-   rm -rf /data/addons/a0d7b954_grocy
+   rm -rf /mnt/data/supervisor/addons/data/a0d7b954_grocy
 
    # Restore from backup
    cp -r /backup/grocy-migration-YYYYMMDD/a0d7b954_grocy /data/addons/
 
    # Verify permissions
-   chown -R root:root /data/addons/a0d7b954_grocy
-   chmod -R 755 /data/addons/a0d7b954_grocy
+   chown -R root:root /mnt/data/supervisor/addons/data/a0d7b954_grocy
+   chmod -R 755 /mnt/data/supervisor/addons/data/a0d7b954_grocy
    ```
 
 5. **Restore Configuration**:
@@ -222,7 +222,7 @@ If you encounter issues and need to rollback:
 2. **Restore Data**:
    ```bash
    # Remove current data
-   rm -rf /data/addons/a0d7b954_grocy
+   rm -rf /mnt/data/supervisor/addons/data/a0d7b954_grocy
 
    # Restore backup
    cp -r /backup/grocy-migration-YYYYMMDD/a0d7b954_grocy /data/addons/
@@ -264,8 +264,8 @@ Settings → Add-ons → Grocy → Log
    ```
    **Solution**: Fix file permissions
    ```bash
-   chown -R root:root /data/addons/a0d7b954_grocy
-   chmod -R 755 /data/addons/a0d7b954_grocy
+   chown -R root:root /mnt/data/supervisor/addons/data/a0d7b954_grocy
+   chmod -R 755 /mnt/data/supervisor/addons/data/a0d7b954_grocy
    ```
 
 3. **Missing Dependencies**:
@@ -281,20 +281,20 @@ Settings → Add-ons → Grocy → Log
 
 **Check Data Directory**:
 ```bash
-ls -lh /data/addons/a0d7b954_grocy/
+ls -lh /mnt/data/supervisor/addons/data/a0d7b954_grocy/
 # Should show: grocy.db, storage/, viewcache/
 ```
 
 **Verify Database Integrity**:
 ```bash
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 sqlite3 grocy.db "PRAGMA integrity_check;"
 # Should output: ok
 ```
 
 **Restore from SQL Dump** (if database corrupted):
 ```bash
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 mv grocy.db grocy.db.broken
 sqlite3 grocy.db < /backup/grocy-migration-YYYYMMDD/a0d7b954_grocy/grocy_backup_YYYYMMDD.sql
 ```
@@ -323,13 +323,13 @@ docker logs addon_a0d7b954_grocy 2>&1 | grep nginx
 
 **Check Storage Directory**:
 ```bash
-ls -lh /data/addons/a0d7b954_grocy/storage/
+ls -lh /mnt/data/supervisor/addons/data/a0d7b954_grocy/storage/
 # Should show uploaded files
 ```
 
 **Fix Permissions**:
 ```bash
-chmod -R 755 /data/addons/a0d7b954_grocy/storage
+chmod -R 755 /mnt/data/supervisor/addons/data/a0d7b954_grocy/storage
 ```
 
 ## Verification Checklist
@@ -355,7 +355,7 @@ After migration, verify:
 For advanced users, here are the key data locations:
 
 ```
-/data/addons/a0d7b954_grocy/          # Main data directory
+/mnt/data/supervisor/addons/data/a0d7b954_grocy/          # Main data directory
 ├── grocy.db                          # SQLite database (all core data)
 ├── storage/                          # User uploads
 │   ├── productpictures/              # Product images

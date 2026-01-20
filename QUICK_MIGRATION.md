@@ -32,7 +32,7 @@ ssh root@homeassistant.local
 mkdir -p /backup/grocy_$(date +%Y%m%d)
 
 # Copy entire data directory
-cp -r /data/addons/a0d7b954_grocy /backup/grocy_$(date +%Y%m%d)/
+cp -r /mnt/data/supervisor/addons/data/a0d7b954_grocy /backup/grocy_$(date +%Y%m%d)/
 
 # Verify backup
 ls -lh /backup/grocy_$(date +%Y%m%d)/a0d7b954_grocy/grocy.db
@@ -56,7 +56,7 @@ Click: Install (on the NEW version)
 # Still via SSH
 
 # Navigate to data directory
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 
 # If new add-on created default files, back them up
 if [ -f grocy.db ]; then
@@ -73,7 +73,7 @@ cp /backup/grocy_$(date +%Y%m%d)/a0d7b954_grocy/grocy.db ./
 cp -r /backup/grocy_$(date +%Y%m%d)/a0d7b954_grocy/storage ./
 
 # Set correct permissions
-chown -R root:root /data/addons/a0d7b954_grocy
+chown -R root:root /mnt/data/supervisor/addons/data/a0d7b954_grocy
 chmod 644 grocy.db
 chmod -R 755 storage
 
@@ -130,14 +130,14 @@ Quick checks after migration:
 ### "Database is locked" error
 ```bash
 ha addons stop a0d7b954_grocy
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 rm -f grocy.db-shm grocy.db-wal
 ha addons start a0d7b954_grocy
 ```
 
 ### "Permission denied" error
 ```bash
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 chown root:root grocy.db
 chmod 644 grocy.db
 ha addons restart a0d7b954_grocy
@@ -145,7 +145,7 @@ ha addons restart a0d7b954_grocy
 
 ### Images not showing
 ```bash
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 chmod -R 755 storage
 ha addons restart a0d7b954_grocy
 ```
@@ -168,7 +168,7 @@ Settings → Add-ons → Grocy → ⋮ → Rebuild
 ha addons stop a0d7b954_grocy
 
 # Restore original database
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 rm -rf grocy.db storage
 cp /backup/grocy_YYYYMMDD/a0d7b954_grocy/grocy.db ./
 cp -r /backup/grocy_YYYYMMDD/a0d7b954_grocy/storage ./
@@ -200,7 +200,7 @@ sleep 5
 BACKUP_DIR="/backup/grocy_$(date +%Y%m%d_%H%M%S)"
 echo "Creating backup: $BACKUP_DIR"
 mkdir -p $BACKUP_DIR
-cp -r /data/addons/a0d7b954_grocy $BACKUP_DIR/
+cp -r /mnt/data/supervisor/addons/data/a0d7b954_grocy $BACKUP_DIR/
 
 # Verify backup
 if [ -f "$BACKUP_DIR/a0d7b954_grocy/grocy.db" ]; then
@@ -217,7 +217,7 @@ echo "=== NEXT STEPS ==="
 echo "1. Install new Grocy add-on (DON'T START IT)"
 echo "2. Run this restore command:"
 echo ""
-echo "   cd /data/addons/a0d7b954_grocy && \\"
+echo "   cd /mnt/data/supervisor/addons/data/a0d7b954_grocy && \\"
 echo "   rm -rf grocy.db storage && \\"
 echo "   cp $BACKUP_DIR/a0d7b954_grocy/grocy.db ./ && \\"
 echo "   cp -r $BACKUP_DIR/a0d7b954_grocy/storage ./ && \\"

@@ -34,14 +34,14 @@ ha addons stop a0d7b954_grocy
 ssh root@homeassistant.local  # or your HA IP
 
 # Find the database
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 ls -lh grocy.db
 
 # Expected output:
 # -rw-r--r-- 1 root root 2.5M Jan 20 15:00 grocy.db
 ```
 
-**Database Location**: `/data/addons/a0d7b954_grocy/grocy.db`
+**Database Location**: `/mnt/data/supervisor/addons/data/a0d7b954_grocy/grocy.db`
 
 ### Step 3: Create Backup Copy
 
@@ -66,7 +66,7 @@ cp grocy.db /backup/grocy_migration_$(date +%Y%m%d).db
 # IMPORTANT: Do NOT start the add-on
 
 # Wait for installation to complete, then:
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 
 # The new add-on will create default structure on first start
 # We'll copy our database before that happens
@@ -79,7 +79,7 @@ cd /data/addons/a0d7b954_grocy
 ha addons stop a0d7b954_grocy
 
 # Navigate to data directory
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 
 # Backup default database (if exists)
 if [ -f grocy.db ]; then
@@ -96,7 +96,7 @@ cp grocy_backup_YYYYMMDD_HHMMSS.db grocy.db
 ### Step 5: Copy Storage Directory (Images/Files)
 
 ```bash
-# Still in /data/addons/a0d7b954_grocy/
+# Still in /mnt/data/supervisor/addons/data/a0d7b954_grocy/
 
 # Backup existing storage (if new add-on created one)
 if [ -d storage ]; then
@@ -114,12 +114,12 @@ ls -lh storage/productpictures/
 
 ```bash
 # Ensure correct ownership
-chown -R root:root /data/addons/a0d7b954_grocy
+chown -R root:root /mnt/data/supervisor/addons/data/a0d7b954_grocy
 
 # Set correct permissions
-chmod 755 /data/addons/a0d7b954_grocy
-chmod 644 /data/addons/a0d7b954_grocy/grocy.db
-chmod -R 755 /data/addons/a0d7b954_grocy/storage
+chmod 755 /mnt/data/supervisor/addons/data/a0d7b954_grocy
+chmod 644 /mnt/data/supervisor/addons/data/a0d7b954_grocy/grocy.db
+chmod -R 755 /mnt/data/supervisor/addons/data/a0d7b954_grocy/storage
 ```
 
 ### Step 7: Start New Add-on
@@ -174,7 +174,7 @@ Settings → Add-ons → Grocy (old) → Stop
 Settings → Add-ons → Add-on Store → Terminal & SSH → Install
 
 # Open Terminal and run:
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 cp grocy.db /config/www/grocy_backup_$(date +%Y%m%d).db
 cp -r storage /config/www/grocy_storage_backup
 ```
@@ -192,12 +192,12 @@ This downloads the database to your computer.
 # Upload database back to /config/www/
 
 # Then via Terminal:
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 cp /config/www/grocy_backup_YYYYMMDD.db grocy.db
 cp -r /config/www/grocy_storage_backup storage
 
 # Set permissions
-chown -R root:root /data/addons/a0d7b954_grocy
+chown -R root:root /mnt/data/supervisor/addons/data/a0d7b954_grocy
 chmod 644 grocy.db
 ```
 
@@ -340,7 +340,7 @@ Error: database is locked
 ha addons stop a0d7b954_grocy
 
 # Check for stale lock files
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 ls -la grocy.db*
 rm grocy.db-shm grocy.db-wal  # Remove journal files if present
 
@@ -356,7 +356,7 @@ Error: unable to open database file
 
 **Solution**:
 ```bash
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 chown root:root grocy.db
 chmod 644 grocy.db
 ```
@@ -382,7 +382,7 @@ mv grocy_fixed.db grocy.db
 **Solution**:
 ```bash
 # Verify storage directory copied
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 ls -la storage/productpictures/
 
 # If missing, copy from backup
@@ -493,7 +493,7 @@ If migration fails and you need to rollback:
 ha addons stop a0d7b954_grocy
 
 # Restore from backup
-cd /data/addons/a0d7b954_grocy
+cd /mnt/data/supervisor/addons/data/a0d7b954_grocy
 rm -rf *
 cp -r /backup/grocy_migration_YYYYMMDD/* ./
 
@@ -512,11 +512,11 @@ ha addons uninstall a0d7b954_grocy
 
 1. **Stop old add-on** (Settings → Add-ons → Grocy → Stop)
 2. **SSH into Home Assistant**
-3. **Create full backup**: `cp -r /data/addons/a0d7b954_grocy /backup/grocy_YYYYMMDD`
+3. **Create full backup**: `cp -r /mnt/data/supervisor/addons/data/a0d7b954_grocy /backup/grocy_YYYYMMDD`
 4. **Install new add-on** (don't start)
-5. **Copy database**: `cp /backup/grocy_YYYYMMDD/grocy.db /data/addons/a0d7b954_grocy/`
-6. **Copy storage**: `cp -r /backup/grocy_YYYYMMDD/storage /data/addons/a0d7b954_grocy/`
-7. **Fix permissions**: `chown -R root:root /data/addons/a0d7b954_grocy && chmod 644 /data/addons/a0d7b954_grocy/grocy.db`
+5. **Copy database**: `cp /backup/grocy_YYYYMMDD/grocy.db /mnt/data/supervisor/addons/data/a0d7b954_grocy/`
+6. **Copy storage**: `cp -r /backup/grocy_YYYYMMDD/storage /mnt/data/supervisor/addons/data/a0d7b954_grocy/`
+7. **Fix permissions**: `chown -R root:root /mnt/data/supervisor/addons/data/a0d7b954_grocy && chmod 644 /mnt/data/supervisor/addons/data/a0d7b954_grocy/grocy.db`
 8. **Start new add-on**
 9. **Verify data**
 
