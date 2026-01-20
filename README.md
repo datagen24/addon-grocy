@@ -18,6 +18,32 @@
 
 [![Support Frenck on Patreon][patreon-shield]][patreon]
 
+---
+
+## ⚠️ Maintained Fork Notice
+
+**This is an actively maintained fork** of the [original Grocy add-on](https://github.com/hassio-addons/addon-grocy) by [Franck Nijhof][frenck].
+
+**Why this fork exists:**
+- The upstream repository has not been updated in over a year
+- Maintenance requests to the original author have gone unanswered
+- Only automated bot activity on the original repository
+- Critical security updates and dependency modernization needed
+
+**What's been updated (January 2026):**
+- ✅ Base container migrated from archived `base-nodejs:0.2.5` to actively maintained `base:19.0.0`
+- ✅ Alpine Linux upgraded: 3.19 → 3.22 (latest stable with security patches)
+- ✅ PHP upgraded: 8.2 → 8.3 (major version with performance improvements)
+- ✅ All dependencies updated to latest stable versions
+- ✅ Grocy v4.5.0 with all new feature flags integrated
+- ✅ Comprehensive database migration guides for upgrades
+
+**Migration from original add-on:** See [DATABASE_MIGRATION.md](DATABASE_MIGRATION.md) and [MIGRATION.md](MIGRATION.md) for complete upgrade instructions.
+
+**Credit:** Original work and ongoing inspiration by [Franck Nijhof][frenck]. This fork maintains his excellent foundation with active security and dependency maintenance.
+
+---
+
 ERP beyond your fridge! A groceries & household management solution
 for your home.
 

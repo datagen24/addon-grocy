@@ -86,8 +86,40 @@ if bashio::config.false 'tweaks.stock_count_opened_products_against_minimum_stoc
     export GROCY_FEATURE_SETTING_STOCK_COUNT_OPENED_PRODUCTS_AGAINST_MINIMUM_STOCK_AMOUNT=0
 fi
 
+if bashio::config.false 'features.label_printer'; then
+    export GROCY_FEATURE_FLAG_LABEL_PRINTER=0
+fi
+
+if bashio::config.false 'features.thermal_printer'; then
+    export GROCY_FEATURE_FLAG_THERMAL_PRINTER=0
+fi
+
+if bashio::config.false 'tweaks.recipes_mealplan'; then
+    export GROCY_FEATURE_FLAG_RECIPES_MEALPLAN=0
+fi
+
+if bashio::config.false 'tweaks.calendar_show_week_of_year'; then
+    export GROCY_CALENDAR_SHOW_WEEK_OF_YEAR=0
+fi
+
+if bashio::config.has_value 'energy_unit'; then
+    export GROCY_ENERGY_UNIT=$(bashio::config 'energy_unit')
+fi
+
+if bashio::config.true 'tweaks.stock_best_before_date_field_number_pad'; then
+    export GROCY_FEATURE_SETTING_STOCK_BEST_BEFORE_DATE_FIELD_NUMBER_PAD=1
+fi
+
+if bashio::config.true 'tweaks.disable_browser_barcode_camera_scanning'; then
+    export GROCY_FEATURE_SETTING_DISABLE_BROWSER_BARCODE_CAMERA_SCANNING=1
+fi
+
+if bashio::config.true 'tweaks.auto_torch_on_with_camera'; then
+    export GROCY_FEATURE_SETTING_AUTO_TORCH_ON_WITH_CAMERA=1
+fi
+
 GROCY_CULTURE=$(bashio::config "culture")
 GROCY_CURRENCY=$(bashio::config "currency")
 GROCY_ENTRY_PAGE=$(bashio::config 'entry_page')
 
-exec php-fpm82 -R --nodaemonize
+exec php-fpm83 -R --nodaemonize
